@@ -1,6 +1,7 @@
 import random as rnd
 from hex_helper import hls_to_hex
 
+#constants
 base_hue_bottom = 0.00
 base_hue_top = 1.00
 hue_variance = 0.04
@@ -10,8 +11,18 @@ lightness_variance = 0.05
 lightness_steps = [0.2, 0.4, 0.6, 0.8]
 
 saturation_constant = 0.7
+accent_lightness = 0.75
+rotation_factor = 0.5
 
 def analogous():
+    """
+    Generate a five colour palette: a dark to light ramp plus accent.
+
+    Four colours share a tight hue band off a randomised base hue,
+    the fifth is an accent on the opposite side of the colour wheel.
+
+    :return: A list of five "#RRGGBB" strings: four ramp colours and the accent.
+    """
     # hues:
     base_hue = rnd.uniform(base_hue_bottom, base_hue_top)
 
@@ -32,6 +43,12 @@ def analogous():
     results = []
     for hue, lightness in zip(adjusted_hues, adjusted_lightness):
         results.append(hls_to_hex(hue, lightness, saturation_constant))
+
+    #complementary
+    comp_hue = (base_hue + rotation_factor) % rotation_range
+    comp_hex = hls_to_hex(comp_hue, accent_lightness, saturation_constant)
+
+    results.append(comp_hex)
 
     return results
 
