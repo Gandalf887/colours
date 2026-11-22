@@ -1,4 +1,5 @@
 import random as rnd
+from hex_helper import hls_to_hex
 
 base_hue_bottom = 0.00
 base_hue_top = 1.00
@@ -8,6 +9,7 @@ rotation_range = 1
 lightness_variance = 0.05
 lightness_steps = [0.2, 0.4, 0.6, 0.8]
 
+saturation_constant = 0.7
 
 def analogous():
     # hues:
@@ -27,7 +29,11 @@ def analogous():
         nudge = rnd.uniform(-lightness_variance, lightness_variance)
         adjusted_lightness.append(min(1, max(0, nudge + step)))
 
-    return adjusted_hues, adjusted_lightness
+    results = []
+    for hue, lightness in zip(adjusted_hues, adjusted_lightness):
+        results.append(hls_to_hex(hue, lightness, saturation_constant))
+
+    return results
 
 if __name__ == "__main__":
     print(analogous())
