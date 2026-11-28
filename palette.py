@@ -14,6 +14,8 @@ saturation_constant = 0.7
 accent_lightness = 0.75
 rotation_factor = 0.5
 
+colour_count = 5
+
 def analogous():
     """
     Generate a five colour palette: a dark to light ramp plus accent.
@@ -52,5 +54,24 @@ def analogous():
 
     return results
 
+def spread_values():
+    """
+    Generate hues spread evenly round the colour wheel.
+
+    A random base hue is picked, then colour_count hues are placed at equal spacing around
+    the colour wheel.
+
+    :return: A list of colour_count hues from 0 to 1.
+    """
+    positions = []
+
+    base_hue = rnd.uniform(base_hue_bottom, base_hue_top)
+
+    for i in range(colour_count):
+        positions.append((i/colour_count + base_hue) % rotation_range)
+
+    return positions
+
 if __name__ == "__main__":
     print(analogous())
+    print(spread_values())
